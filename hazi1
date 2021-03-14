@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+template<typename F, typename dF,typename T>
+T newton_iterator(F f,dF df,T x0)
+{
+double x1=x0-f(x0)/df(x0);
+while (abs(x1-x0)>0.000001){
+    x0=x1;
+    x1=x0-f(x0)/df(x0);
+}
+    return x1;
+    }
+
+int main()
+{
+double a=newton_iterator([](double x){return x*x-612.0;},[](double x){return 2.0*x;},10.0);
+std::cout.precision(16);
+std::cout<<a<< std::endl;
+
+
+    return 0;
+}
