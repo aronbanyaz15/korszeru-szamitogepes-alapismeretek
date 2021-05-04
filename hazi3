@@ -1,0 +1,50 @@
+#include <iostream>
+#include <math.h>
+#include <fstream>
+using namespace std;
+double f(double x){
+    double q=1.8;
+    double f=900;//x iranyu ero
+    double a=200; //integralasi hossz
+
+return (f/q)*(cosh(q*x/f)-cosh(q*a/(2*f)));//kabel alakjat leiro fuggveny
+}
+double fx(double x){
+return x;
+}
+int main()
+{
+ofstream eredmeny;
+eredmeny.open ("eredmneny.txt");
+
+double a=200;
+double m=0;//kotel hossz kozepontos modszerrel
+double m2=0;//kotel hossz trapez modszerrel
+double m3=0;//Simpson modszer
+int n=1000; //lepes szam
+double df=0;//derivalt erteke
+double dx=a/n;//lepes hossz
+double s=0;
+double s2=0;
+double df0=0;
+for(int d=0;d<n;d++){
+    df0=df;
+    s=(f(d*dx+(dx/2))-f(d*dx-(dx/2)))/(2*dx);
+    s2=(f(d*dx+dx)-f(d*dx-dx))/(4*dx);
+    df=(16*s-s2)/15;//derivalt kiszamolasa
+    //cout<<df<<"\n";
+    m=m+dx*sqrt(1+df*df);//kozeppontos modszer
+    m2=m2+0.5*dx*(sqrt(1+df0*df0)+sqrt(1+df*df));//trapez modszer
+    m3=(2*m+m2)/3;
+}
+
+cout<<m<<"\n";
+cout<<m2<<"\n";
+cout<<m3<<"\n";
+eredmeny<<" kozepontos modszer: "<<m<<",";
+eredmeny<<" trapez modszer"<<m2<<",";
+eredmeny<<" Simpson modszer"<<m3<<",";
+eredmeny.close();
+
+    return 0;
+}
